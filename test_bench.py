@@ -24,7 +24,7 @@ for _ in range(n):
     apply_websocket_mask(m, d)
 tt1 = t() - t1
 
-print(tt1, "Pythong", s / (tt1 * (10 ** 9)), "GB / s")
+print(tt1, "Pythong", s * n / (tt1 * (10 ** 9)), "GB / s")
 
 l = len(d)
 
@@ -33,6 +33,6 @@ for _ in range(n):
     x(l, d, m)
 tt2 = t() - t1
 
-print(tt2, "CFFI", s / (tt2 * (10 ** 9)), "GB / s")
+print(tt2, "CFFI", s * n / (tt2 * (10 ** 9)), "GB / s")
 
 print(tt1 / tt2, "times faster")
