@@ -7,17 +7,28 @@
 // typedef struct {
 //     uint8_t bytes[4];
 // } Mask;
-
+#define ENV64 8
 
 void apply_websocket_mask(int len, char *data, char mask[]) {
-    for (int i = 0; i < (len / 4); i++) {
-        data[i] = mask[0] ^ data[i];
-        data[i + 1] = mask[1] ^ data[i + 1];
-        data[i + 2] = mask[2] ^ data[i + 2];
-        data[i + 3] = mask[3] ^ data[i + 3];
+    #if defined(ENV32) || defined(ENV64)
+    #define N 4
+    uint32_t m4 = *(uint32_t *)mask;
+    #endif
+
+    #if defined(ENV64)
+    #define N 8
+    uint64_t m8 = ((uint64_t)m4 << 32) | (uint64_t)m4;
+    #endif
+
+    for (int i = 0; i < (len / N); i++) {
+        #if defined(ENV32)
+        *(uint32_t *)(data + i) = m4 ^ *(uint32_t *)(data + i);
+        #elif defined(ENV64)
+        *(uint64_t *)(data + i) = m8 ^ *(uint64_t *)(data + i);
+        #endif
     }
 
-    for (int i = len % 4; i > 0; i--) {
+    for (int i = len % N; i > 0; i--) {
         data[len - i] = mask[i] ^ data[len - i];
     }
 }
