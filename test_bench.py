@@ -10,10 +10,10 @@ def apply_websocket_mask(mask, data):
         data_bytes[index::4] = data_bytes[index::4].translate(_XOR_TABLE[mask[index]])
     return data_bytes
 
-s = (10 ** 8) * 5
+s = 10**8
 d = open("/dev/random", "rb").read(s)
 m = bytes("abcd", "utf")
-n = 1
+n = 10
 
 x = _speed.lib.apply_websocket_mask # type: ignore
 
