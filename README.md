@@ -1,5 +1,11 @@
 # Fast mask
 
-Made for scarletio websocket masking, applicable for more cases tho
+CPU benchmark for SIMD
 
-This repo will be getting faster code than present right now, it is a placeholder for seeing if everything works properly
+### Command to compile
+
+For 256-bit vector :
+> gcc -O3 -mavx2 speedup.c
+
+For 128-bit vector :
+> gcc -O3 -msse -msse2 speedup.c
